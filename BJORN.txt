@@ -8,7 +8,9 @@ CREATE TABLE `baza` (
   PRIMARY KEY (`id_postaci`)
 );
 
-INSERT INTO baza(nazwa,rodzaj,data_ur,wiek) VALUES ('Bjorn','wiking',2001-01-01,35),('Drozd','ptak',2001-01-01,3),('Tesciowa','kobieta',2001-01-01,78);
+INSERT INTO baza(nazwa,rodzaj,data_ur,wiek) VALUES ('Bjorn','wiking',2001-01-01,35),('Drozd','ptak',2001-01-01,3),
+
+('Tesciowa','kobieta',2001-01-01,78);
 
 UPDATE baza SET wiek=88 WHERE id_postaci=3;
 
@@ -42,7 +44,7 @@ INSERT INTO `izba` VALUES ('kolorowa 5','spizarnia',120,1);
 
 CREATE TABLE `przetwory` (
    `id_przetworu` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-   `rok_produkcji` INT DEFAULT '1645',
+   `rok_produkcji` INT(4) DEFAULT '1645',
    `id_wykonawcy` INT NOT NULL,
    `zawartosc` VARCHAR(40),
    `dodatek` VARCHAR(40) DEFAULT `papryczka_chilli`,
@@ -80,8 +82,8 @@ ALTER TABLE baza ADD COLUMN statek VARCHAR(40);
 
 ALTER TABLE baza ADD FOREIGN KEY (statek) REFERENCES statek(nazwa_statku);
 
-UPDATE baza SET statek = 'statek1' WHEREid_postaci < 3;
-
+UPDATE baza SET statek = 'statek1' WHERE id_postaci < 3;
+ 
 UPDATE baza SET statek = 'statek1' WHERE id_postaci > 3 AND id_postaci < 5;
 
 DELETE FROM izba WHERE nazwa_izby = 'spizarnia';
