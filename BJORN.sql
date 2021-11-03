@@ -1,5 +1,5 @@
 
-CREATE TABLE `baza` (
+CREATE TABLE `postacie` (
   `id_postaci` int NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(40) DEFAULT NULL,
   `rodzaj` enum('wiking','ptak','kobieta') DEFAULT NULL,
@@ -8,11 +8,9 @@ CREATE TABLE `baza` (
   PRIMARY KEY (`id_postaci`)
 );
 
-INSERT INTO baza(nazwa,rodzaj,data_ur,wiek) VALUES ('Bjorn','wiking',2001-01-01,35),('Drozd','ptak',2001-01-01,3),
+INSERT INTO postacie(nazwa,rodzaj,data_ur,wiek) VALUES ('Bjorn','wiking',2001-01-01,35),('Drozd','ptak',2001-01-01,3),('Tesciowa','kobieta',2001-01-01,78);
 
-('Tesciowa','kobieta',2001-01-01,78);
-
-UPDATE baza SET wiek=88 WHERE id_postaci=3;
+UPDATE postacie SET wiek=88 WHERE id_postaci=3;
 
 CREATE TABLE `walizka` (
   `id_walizki` int NOT NULL AUTO_INCREMENT,
@@ -21,7 +19,7 @@ CREATE TABLE `walizka` (
   `id_wlasciciela` int DEFAULT NULL,
   PRIMARY KEY (`id_walizki`),
   KEY `id_wlasciciela` (`id_wlasciciela`),
-  CONSTRAINT `walizka_ibfk_1` FOREIGN KEY (`id_wlasciciela`) REFERENCES `baza` (`id_postaci`)
+  CONSTRAINT `walizka_ibfk_1` FOREIGN KEY (`id_wlasciciela`) REFERENCES `postacie` (`id_postaci`)
 );
 
 ATER TABLE walizka ALTER kolor SET DEFAULT 'rozowy';
@@ -33,7 +31,7 @@ CREATE TABLE `izba` (
    `nazwa_izby` INT NOT NULL,
    `metraz` INT UNSIGNED,
    `wlasciciel` INT,
-   FOREIGN KEY (wlasciciel) REFERENCES baza(id_postaci) ON DELETE SET NULL
+   FOREIGN KEY (wlasciciel) REFERENCES postacie(id_postaci) ON DELETE SET NULL
 );
 
 ALTER TABLE `izba` ADD PRIMARY KEY (`adres_budynku`,`nazwa_izby`);
@@ -49,14 +47,14 @@ CREATE TABLE `przetwory` (
    `zawartosc` VARCHAR(40),
    `dodatek` VARCHAR(40) DEFAULT `papryczka_chilli`,
    `id_konsumenta` INT NOT NULL,
-   FOREIGN KEY (id_wykonawcy) REFERENCES baza(id_postaci),
-   FOREIGN KEY (id_konsumenta) REFERENCES baza(id_postaci)
+   FOREIGN KEY (id_wykonawcy) REFERENCES postacie(id_postaci),
+   FOREIGN KEY (id_konsumenta) REFERENCES postacie(id_postaci)
 );
 
 INSERT INTO przetwory VALUES (1,1644,1,'bigos',default,2);
 
 
-INSERT INTO baza(nazwa,rodzaj,data_ur,wiek) VALUES 
+INSERT INTO postacie(nazwa,rodzaj,data_ur,wiek) VALUES 
 ('Arne','wiking','1659-01-01',25),
 ('Birger','wiking','1647-01-01',46),
 ('Erik','wiking','1654-01-01',64),
@@ -74,19 +72,50 @@ INSERT INTO statek VALUES
 ('statek1', 'Drakkar', '1657-01-01','7'),
 ('statek2', 'Langskip', '1655-02-02', '8');
 
-ALTER TABLE baza ADD COLUMN 'funkcja' VARCHAR(40);
+ALTER TABLE postacie ADD COLUMN 'funkcja' VARCHAR(40);
 
-UPDATE baza SET funkcja = 'kapitan' WHERE id_postaci = 1;
+UPDATE postacie SET funkcja = 'kapitan' WHERE id_postaci = 1;
 
-ALTER TABLE baza ADD COLUMN statek VARCHAR(40);
+ALTER TABLE postacie ADD COLUMN statek VARCHAR(40);
 
-ALTER TABLE baza ADD FOREIGN KEY (statek) REFERENCES statek(nazwa_statku);
+ALTER TABLE postacie ADD FOREIGN KEY (statek) REFERENCES statek(nazwa_statku);
 
-UPDATE baza SET statek = 'statek1' WHERE id_postaci < 3;
- 
-UPDATE baza SET statek = 'statek1' WHERE id_postaci > 3 AND id_postaci < 5;
+UPDATE postacie SET statek = 'statek1' WHERE id_postaci <  3;
+
+UPDATE postacie SET statek = 'statek1' WHERE id_postaci > 3 AND id_postaci < 5;
 
 DELETE FROM izba WHERE nazwa_izby = 'spizarnia';
 
 DROP TABLE izba;
 
+DELETE FROM postacie WHERE nazwa!='Bjorn' AND nazwa='Erik' AND nazwa='Birger';
+
+ALTER TABLE postacie DROP FOREIGN KEY id_postaci;
+
+ALTER TABLE postacie DROP PRIMARY KEY;
+
+ALTER TABLE postacie ADD COLUMN PESEL INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE postacie ADD PRIMARY KEY PESEL;
+
+ALTER TABLE postacie MODIFY `rodzaj` enum('wiking','ptak','kobieta','syrena') DEFAULT NULL,
+
+INSERT INTO postacie ('nazwa','rodzaj','data_ur','wiek','pesel') VALUES ('Gertruda Nieszczera','syrena','1676-01-01','155','09876542314');
+
+ALTER TABLE postacie SET statek='statek1' WHERE nazwa LIKE '%a%';
+
+ALTER TABLE statek SET max_ladownosc= 0.7 * max_ladownosc;
+
+ALTER TABLE postacie ADD CHECK (wiek<=1000);
+
+CREATE TABLE marynarz SELECT * FROM postacie WHERE statek IS NOT NULL;
+
+UPDATE postacie SET statek IS NULL;
+
+DELETE * FROM postacie WHERE nazwa='Frode';
+
+TRUNCATE TABLE statek;
+
+DROP TABLE statek;
+
+CREATE TABLE zwierz (id INT AUTO_INCREMENT NOT NULL, nazwa varchar(40), wiek INT(3), PRIMARY KEY id);
