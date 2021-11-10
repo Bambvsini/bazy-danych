@@ -146,7 +146,7 @@ SELECT TOP 5 * FROM kreatura ORDER BY dataUR ASC;
 
 SELECT DISTINCT rodzaj FROM zasob;
 
-SELECT CONCAT(nazwa,' ',rodzaj) FROM kreatura WHERE nazwa LIKE 'wi%';
+SELECT CONCAT(nazwa,' - ',rodzaj) FROM kreatura WHERE nazwa LIKE 'wi%';
 
 SELECT nazwa, waga*ilosc AS waga_calkowita, dataPozyskania, rodzaj FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 2000 AND 2007;
 
