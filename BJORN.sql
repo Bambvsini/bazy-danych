@@ -148,7 +148,7 @@ SELECT DISTINCT rodzaj FROM zasob;
 
 SELECT CONCAT(nazwa,' ',rodzaj) FROM kreatura WHERE nazwa LIKE 'wi%';
 
-SELECT nazwa, waga*ilosc AS waga_calkowita, dataPozyskania, rodzaj FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 200 AND 2007;
+SELECT nazwa, waga*ilosc AS waga_calkowita, dataPozyskania, rodzaj FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 2000 AND 2007;
 
 SELECT nazwa,waga*0.7 AS waga_wlasciwa, waga*0.3 AS waga_odpadu FROM zasob WHERE rodzaj = 'jedzenie';
 
