@@ -154,4 +154,4 @@ SELECT nazwa,waga*0.7 AS waga_wlasciwa, waga*0.3 AS waga_odpadu FROM zasob WHERE
 
 SELECT * FROM zasob WHERE rodzaj IS NULL;
 
-SELECT nazwa, rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE '%os' ORDER BY nazwa ASC;
+SELECT DISTINCT nazwa, rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE '%os' ORDER BY nazwa ASC;
