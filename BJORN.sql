@@ -140,7 +140,7 @@ SELECT * FROM kreatura LIKE '%or%' AND WHERE udzwig BETWEEN 30 AND 70;
 
 SELECT * FROM zasob WHERE month(dataPozyskania) IN (7,8);
 
-SELECT * FROM zasoby WHERE rodzaj IS NOT NULL ORDER BY ciezar ASC;
+SELECT * FROM zasoby WHERE rodzaj IS NOT NULL ORDER BY waga ASC;
 
 SELECT TOP 5 * FROM kreatura ORDER BY dataUR ASC;
 
