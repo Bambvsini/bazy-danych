@@ -118,4 +118,40 @@ TRUNCATE TABLE statek;
 
 DROP TABLE statek;
 
-CREATE TABLE zwierz (id INT AUTO_INCREMENT NOT NULL, nazwa varchar(40), wiek INT(3), PRIMARY KEY id);
+CREATE TABLE zwierz (id INT AUTO_INCREMENT NOT NULL, nazwa varchar(40), wiek INT(3), PRIMARY KEY id)
+
+CREATE TABLE kreatura SELECT * FROM wikingowie.kreatura;
+
+CREATE TABLE zasob SELECT * FROM wikingowie.zasob;
+
+CREATE TABLE ekwipunek SELECT * FROM wikingowie.ekwipunek;
+
+SELECT * FROM zasob;
+
+SELECT * FROM zasob WHERE typ ='jedzenie';
+
+SELECT idZasobu,ilosc FROM zasob WHERE kreatura.id_kreatury IN (1,3,5);
+
+SELECT * FROM kreatura WHERE rodzaj != 'wiedzma' AND udzwig = 50;
+
+SELECT * FROM zasoby WHERE waga BETWEEN 2 AND 5;
+
+SELECT * FROM kreatura LIKE '%or%' AND WHERE udzwig BETWEEN 30 AND 70;
+
+SELECT * FROM zasob WHERE month(dataPozyskania) IN (7,8);
+
+SELECT * FROM zasoby WHERE rodzaj IS NOT NULL ORDER BY ciezar ASC;
+
+SELECT TOP 5 * FROM kreatura ORDER BY dataUR ASC;
+
+SELECT DISTINCT rodzaj FROM zasob;
+
+SELECT CONCAT(nazwa,' ',rodzaj) FROM kreatura WHERE nazwa LIKE 'wi%';
+
+SELECT nazwa, waga*ilosc AS waga_calkowita, dataPozyskania, rodzaj FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 200 AND 2007;
+
+SELECT nazwa,waga*0.7 AS waga_wlasciwa, waga*0.3 AS waga_odpadu FROM zasob WHERE rodzaj = 'jedzenie';
+
+SELECT * FROM zasob WHERE rodzaj IS NULL;
+
+SELECT rodzaj FROM zasob WHERE nazwa IN ('Ba%' or '%os') GROUP BY rodzaj ORDER BY min(rodzaj);
