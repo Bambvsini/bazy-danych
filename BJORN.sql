@@ -155,3 +155,15 @@ SELECT nazwa,waga*0.7 AS waga_wlasciwa, waga*0.3 AS waga_odpadu FROM zasob WHERE
 SELECT * FROM zasob WHERE rodzaj IS NULL;
 
 SELECT DISTINCT nazwa, rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE '%os' ORDER BY nazwa ASC;
+
+SELECT rodzaj,sum(waga) AS `Suma wag` FROM skrzypinskio.zasob GROUP BY rodzaj;
+
+SELECT nazwa,avg(waga) FROM skrzypinskio.zasob WHERE ilosc>=4 GROUP BY nazwa HAVING avg(waga)>10;
+
+SELECT count(DISTINCT nazwa) FROM skrzypinskio.zasob WHERE ilosc>1 GROUP BY rodzaj;
+
+SELECT avg(waga) AS "Srednia_waga" ,count(idKreatury) as "liczba_kreatur" FROM wikingowie.kreatura GROUP BY rodzaj; 
+
+SELECT rodzaj,avg(2021-year(dataUr)) FROM wikingowie.kreatura GROUP BY rodzaj;
+
+SELECT nazwa,SUM(ekwipunek.ilosc) FROM wikingowie.kreatura, wikingowie.ekwipunek WHERE wikingowie.kreatura.idKreatury = wikingowie.ekwipunek.idKreatury GROUP BY kreatura.nazwa;
