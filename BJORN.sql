@@ -167,3 +167,49 @@ SELECT avg(waga) AS "Srednia_waga" ,count(idKreatury) as "liczba_kreatur" FROM w
 SELECT rodzaj,avg(2021-year(dataUr)) FROM wikingowie.kreatura GROUP BY rodzaj;
 
 SELECT nazwa,SUM(ekwipunek.ilosc) FROM wikingowie.kreatura, wikingowie.ekwipunek WHERE wikingowie.kreatura.idKreatury = wikingowie.ekwipunek.idKreatury GROUP BY kreatura.nazwa;
+
+select avg(waga) from kreatura where rodzaj='wiking';
+
+select count(rodzaj), avg(waga) from kreatura group by rodzaj;
+
+select avg(year(dataUr)) from kreatura;
+
+select rodzaj, sum(waga) from zasob group by rodzaj;
+
+select avg(waga)from zasob group by rodzaj having ilosc > 3 and avg(waga)  > 10;
+
+select count(distinct(nazwa)), rodzaj from zasob group by rodzaj having sum(ilosc)>1;
+
+select k.nazwa, sum(e.ilosc) from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury group by(nazwa);
+
+select kreatura.nazwa, zasob.nazwa from kreatura inner join ekwipunek on kreatura.idKreatury=ekwipunek.idKreatury inner join zasob on ekwipunek.idZasobu=zasob.idZasobu order by kreatura.nazwa;
+
+select kreatura.nazwa, ekwipunek.idKreatury from kreatura left join ekwipunek on kreatura.idKreatury=ekwipunek.idKreatury where ekwipunek.idKreatury is null;
+
+select k.nazwa, z.nazwa from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury inner join zasob z on e.idZasobu=z.idZasobu where k.rodzaj='wiking' and year(k.dataUr) between 1670 and 1679;
+
+select k.nazwa from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury inner join zasob z on e.idZasobu=z.idZasobu where z.rodzaj='jedzenie' order by kdataUr desc limit 5;
+
+select k1.nazwa, k2.nazwa from kreatura k1  inner join kreatura k2 on k1.idKreatury+5=k2.idKreatury;
+
+select k.rodzaj, avg(z.waga) from kreatura k inner join ekwipunek e on k.idKreatury=e.idKreatury inner join zasob z on e.idZasobu=z.idZasobu where k.rodzaj!='malpa' or k.rodzaj!='waz' group by k.rodzaj having sum(e.ilosc)<30;
+
+select k.nazwa, k.rodzaj, k.dataUr from kreatura k, (select rodzaj, min(dataUr)as min, max(dataur) as max from kreatura group by rodzaj) as pod where k.dataUr=pod.min or k.dataUr=pod.max;
+
+select nazwa from kreatura where idKreatury not in (select distinct id_uczestnika from uczestnicy);
+
+SELECT * FROM kreatura k LEFT JOIN uczestnicy u ON k.idKreatury=u.id_uczestnika WHERE u.id_uczestnika IS NULL;
+
+SELECT w.nazwa, sum(e.ilosc) FROM wyprawa w INNER JOIN uczestnicy u ON w.id_wyprawy=u.id_wyprawy INNER JOIN ekwipunek e ON u.id_uczestnika=e.idKreatury GROUP BY w.id_wyprawy;
+
+SELECT rodzaj, group_concat(nazwa separator ' | ') FROM kreatura GROUP BY rodzaj;
+
+SELECT w.data_rozpoczecia, w.nazwa, ew.kolejnosc FROM wyprawa w
+INNER JOIN kreatura k ON k.idKreatury=w.kierownik
+INNER JOIN etapy_wyprawy ew on w.id_wyprawy=ew.idWyprawy
+INNER JOIN sektor s ON ew.sektor=s.id_sektora
+ORDER BY w.data_rozpoczecia, ew.kolejnosc;
+
+SELECT s.nazwa, count(ew.sektor) FROM etapy_wyprawy ew INNER JOIN sektor s ON es.sektor=s.id_sektora GROUP BY s.nazwa with rollup;
+
+SELECT IF(idKreatury is NULL, 'brak nazwy kreatury', idkreatury) FROM ekwipunek
